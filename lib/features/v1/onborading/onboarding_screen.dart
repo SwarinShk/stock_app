@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_app/core/constants/app_color.dart';
 import 'package:stock_app/core/constants/app_image.dart';
+import 'package:stock_app/core/constants/storage_constants.dart';
 import 'package:stock_app/features/v1/login/login_screen.dart';
 import 'package:stock_app/shared/button/custom_button.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  void _onPressed() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setBool(StorageConstants.firstTime, false);
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +64,7 @@ class OnboardingScreen extends StatelessWidget {
                     const SizedBox(height: 50),
                     CustomButton(
                       title: 'Let\'s Get Started',
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                        );
-                      },
+                      onPressed: _onPressed,
                     ),
                     const SizedBox(height: 15),
                   ],

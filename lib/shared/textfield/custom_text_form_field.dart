@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stock_app/core/constants/app_color.dart';
+import 'package:stock_app/core/constants/app_text_style.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller;
@@ -9,7 +10,6 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final String? Function(String?)? validator;
-  final Color focusedBorderColor;
   final int? maxLine;
 
   const CustomTextFormField({
@@ -21,7 +21,6 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.validator,
-    this.focusedBorderColor = AppColor.black80,
     this.maxLine = 1,
   });
 
@@ -49,31 +48,23 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       maxLines: widget.maxLine,
       decoration: InputDecoration(
         prefixIcon: widget.prefix != null ? Icon(widget.prefix) : null,
-        // prefixIconColor: AppColor.hintColor,
+        prefixIconColor: AppColor.black50,
         filled: true,
-        // fillColor: AppColor.fillColor,
+        fillColor: AppColor.black20,
         hintText: widget.hintText,
-        hintStyle: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          // color: AppColor.hintColor,
-        ),
-        errorStyle: TextStyle(
+        hintStyle: AppTextStyle.regular.copyWith(
+          color: AppColor.black50,
           fontSize: 14,
-          fontWeight: FontWeight.w400,
-          // color: AppColor.fireRed,
+        ),
+        errorStyle: AppTextStyle.regular.copyWith(
+          fontSize: 12,
+          color: AppColor.secondary50,
         ),
         border: _border(),
         enabledBorder: _border(),
-        focusedBorder: _border(width: 1.2, color: widget.focusedBorderColor),
-        errorBorder: _border(
-          width: 1.2,
-          // color: AppColor.fireRed
-        ),
-        focusedErrorBorder: _border(
-          width: 1.2,
-          // color: AppColor.fireRed
-        ),
+        focusedBorder: _border(color: AppColor.black40),
+        errorBorder: _border(color: AppColor.secondary50),
+        focusedErrorBorder: _border(color: AppColor.secondary50),
         suffixIcon: widget.obscureText ? _buildVisibilityIcon() : null,
       ),
     );
@@ -93,10 +84,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     );
   }
 
-  OutlineInputBorder _border({
-    double width = 1,
-    Color color = AppColor.black50,
-  }) {
+  OutlineInputBorder _border({double width = 1, Color color = AppColor.white}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: color, width: width),

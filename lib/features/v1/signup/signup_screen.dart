@@ -4,37 +4,46 @@ import 'package:stock_app/core/constants/app_color.dart';
 import 'package:stock_app/core/constants/app_image.dart';
 import 'package:stock_app/core/constants/app_text_style.dart';
 import 'package:stock_app/core/constants/app_validator.dart';
-import 'package:stock_app/features/v1/signup/signup_screen.dart';
 import 'package:stock_app/shared/appbar/custom_appbar.dart';
 import 'package:stock_app/shared/button/custom_button.dart';
 import 'package:stock_app/shared/button/custom_labeled_icon_button.dart';
 import 'package:stock_app/shared/card/labeled_field.dart';
 import 'package:stock_app/shared/textfield/custom_text_form_field.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: Image.asset(AppImage.appBarLogo)),
+      appBar: CustomAppbar(
+        leading: Icons.chevron_left,
+        onLeadingPressed: () {
+          Navigator.pop(context);
+        },
+        title: Image.asset(AppImage.appBarLogo),
+      ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -45,17 +54,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    crossAxisAlignment: .start,
                     mainAxisAlignment: .center,
                     children: [
                       SizedBox(height: 30),
-                      Text('Welcome Back 👋', style: AppTextStyle.heading3),
-                      SizedBox(height: 28),
-                      Text(
-                        'Today is a new trading day. Stay informed, track the market, and manage your investments with confidence.',
-                        style: AppTextStyle.regular,
-                      ),
+                      Text('Sign Up', style: AppTextStyle.heading3),
                       SizedBox(height: 50),
+                      LabeledField(
+                        label: 'Name',
+                        child: CustomTextFormField(
+                          controller: _nameController,
+                          hintText: 'Please enter your name',
+                          validator: AppValidator.validateName,
+                        ),
+                      ),
+                      SizedBox(height: 15),
                       LabeledField(
                         label: 'Email',
                         child: CustomTextFormField(
@@ -74,29 +86,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: AppValidator.validatePassword,
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Align(
-                        alignment: AlignmentGeometry.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            foregroundColor: AppColor.black50,
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: Text(
-                            'Forgot Password?',
-                            style: AppTextStyle.semibold.copyWith(
-                              fontSize: 14,
-                              color: AppColor.secondary50,
-                            ),
-                          ),
+                      SizedBox(height: 15),
+                      LabeledField(
+                        label: 'Confirm Password',
+                        child: CustomTextFormField(
+                          controller: _confirmPasswordController,
+                          hintText: 'Confirm your password',
+                          obscureText: true,
+                          validator: (_) =>
+                              AppValidator.validateConfirmPassword(
+                                value: _passwordController.text,
+                                password: _confirmPasswordController.text,
+                              ),
                         ),
                       ),
                       SizedBox(height: 40),
                       CustomButton(
-                        title: 'Sign In',
+                        title: 'Sign Up',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             debugPrint('Signup form valid');
@@ -109,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Expanded(child: Divider(color: AppColor.black20)),
                           Text(
-                            'Or sign in with',
+                            'Or sign up with',
                             style: AppTextStyle.regular.copyWith(fontSize: 14),
                           ),
                           Expanded(child: Divider(color: AppColor.black20)),
@@ -136,34 +142,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(height: 20),
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            style: AppTextStyle.regular.copyWith(
-                              fontSize: 14,
-                              color: AppColor.black50,
-                            ),
-                            children: [
-                              TextSpan(text: 'Don\'t you have an account?'),
-                              TextSpan(text: '  '),
-                              TextSpan(
-                                text: 'Sign Up',
-                                style: AppTextStyle.regular.copyWith(
-                                  fontSize: 14,
-                                  color: AppColor.black80,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SignupScreen(),
-                                      ),
-                                    );
-                                  },
-                              ),
-                            ],
+                      RichText(
+                        text: TextSpan(
+                          style: AppTextStyle.regular.copyWith(
+                            fontSize: 14,
+                            color: AppColor.black50,
                           ),
+                          children: [
+                            TextSpan(text: 'Already have an account?'),
+                            TextSpan(text: '  '),
+                            TextSpan(
+                              text: 'Sign In',
+                              style: AppTextStyle.regular.copyWith(
+                                fontSize: 14,
+                                color: AppColor.black80,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pop(context);
+                                },
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 30),

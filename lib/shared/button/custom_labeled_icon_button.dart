@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:stock_app/core/constants/app_color.dart';
 import 'package:stock_app/core/constants/app_text_style.dart';
 
-class CustomButton extends StatelessWidget {
+class CustomLabeledIconButton extends StatelessWidget {
   final double height;
   final double width;
-  final String title;
+  final IconData icon;
+  final String label;
   final void Function() onPressed;
 
-  const CustomButton({
+  const CustomLabeledIconButton({
     super.key,
     this.height = 55,
     this.width = double.infinity,
-    required this.title,
+    required this.icon,
+    required this.label,
     required this.onPressed,
   });
 
@@ -21,17 +23,19 @@ class CustomButton extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: ElevatedButton(
+      child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           elevation: 0,
           foregroundColor: AppColor.black50,
-          backgroundColor: AppColor.primary50,
+          backgroundColor: AppColor.white,
           shape: RoundedRectangleBorder(
+            side: BorderSide(color: AppColor.primary50),
             borderRadius: BorderRadiusGeometry.circular(16),
           ),
         ),
         onPressed: onPressed,
-        child: Text(title, style: AppTextStyle.semibold),
+        icon: Icon(icon),
+        label: Text(label, style: AppTextStyle.semibold),
       ),
     );
   }

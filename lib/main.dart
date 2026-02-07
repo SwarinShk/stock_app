@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_app/features/v1/onborading/onboarding_screen.dart';
+import 'package:stock_app/core/constants/app_color.dart';
+import 'package:stock_app/features/v1/splash/splash_screen.dart';
 import 'package:stock_app/firebase_options.dart';
 
 Future<void> main() async {
@@ -18,12 +19,12 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Imaji Stock',
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColor.white),
         fontFamily: 'Inter',
       ),
+      home: SplashScreen(),
     );
   }
 }
