@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_app/core/constants/app_color.dart';
 import 'package:stock_app/core/constants/app_image.dart';
 import 'package:stock_app/core/constants/app_text_style.dart';
 import 'package:stock_app/core/constants/app_validator.dart';
+import 'package:stock_app/features/v1/dashboard/dashboard_screen.dart';
+import 'package:stock_app/providers/auth_service_provider.dart';
 import 'package:stock_app/shared/appbar/custom_appbar.dart';
 import 'package:stock_app/shared/button/custom_button.dart';
 import 'package:stock_app/shared/button/custom_labeled_icon_button.dart';
@@ -36,6 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authServiceProvider = context.watch<AuthServiceProvider>();
     return Scaffold(
       appBar: CustomAppbar(
         leading: Icons.chevron_left,
@@ -103,9 +107,21 @@ class _SignupScreenState extends State<SignupScreen> {
                       SizedBox(height: 40),
                       CustomButton(
                         title: 'Sign Up',
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            debugPrint('Signup form valid');
+                            final success = await authServiceProvider
+                                .signUpUser(
+                                  name: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                            if (success && context.mounted) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => DashboardScreen(),
+                                ),
+                              );
+                            }
                           }
                         },
                       ),
@@ -129,14 +145,14 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: CustomLabeledIconButton(
                               icon: Icons.g_translate_outlined,
                               label: 'Google',
-                              onPressed: () {},
+                              // onPressed: () {},
                             ),
                           ),
                           Expanded(
                             child: CustomLabeledIconButton(
                               icon: Icons.facebook_outlined,
                               label: 'Facebook',
-                              onPressed: () {},
+                              // onPressed: () {},
                             ),
                           ),
                         ],

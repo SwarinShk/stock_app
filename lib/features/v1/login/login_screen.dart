@@ -1,10 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_app/core/constants/app_color.dart';
 import 'package:stock_app/core/constants/app_image.dart';
 import 'package:stock_app/core/constants/app_text_style.dart';
 import 'package:stock_app/core/constants/app_validator.dart';
+import 'package:stock_app/features/v1/dashboard/dashboard_screen.dart';
 import 'package:stock_app/features/v1/signup/signup_screen.dart';
+import 'package:stock_app/providers/auth_service_provider.dart';
 import 'package:stock_app/shared/appbar/custom_appbar.dart';
 import 'package:stock_app/shared/button/custom_button.dart';
 import 'package:stock_app/shared/button/custom_labeled_icon_button.dart';
@@ -33,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authServiceProvider = context.watch<AuthServiceProvider>();
     return Scaffold(
       appBar: CustomAppbar(title: Image.asset(AppImage.appBarLogo)),
       body: SafeArea(
@@ -97,9 +101,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 40),
                       CustomButton(
                         title: 'Sign In',
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            debugPrint('Signup form valid');
+                            final success = await authServiceProvider
+                                .signInUser(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                            if (success && context.mounted) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => DashboardScreen(),
+                                ),
+                              );
+                            }
                           }
                         },
                       ),
@@ -123,14 +138,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: CustomLabeledIconButton(
                               icon: Icons.g_translate_outlined,
                               label: 'Google',
-                              onPressed: () {},
+                              // onPressed: () {},
                             ),
                           ),
                           Expanded(
                             child: CustomLabeledIconButton(
                               icon: Icons.facebook_outlined,
                               label: 'Facebook',
-                              onPressed: () {},
+                              // onPressed: () {},
                             ),
                           ),
                         ],

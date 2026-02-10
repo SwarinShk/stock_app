@@ -7,7 +7,7 @@ class CustomLabeledIconButton extends StatelessWidget {
   final double width;
   final IconData icon;
   final String label;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   const CustomLabeledIconButton({
     super.key,
@@ -15,7 +15,7 @@ class CustomLabeledIconButton extends StatelessWidget {
     this.width = double.infinity,
     required this.icon,
     required this.label,
-    required this.onPressed,
+    this.onPressed,
   });
 
   @override
@@ -28,8 +28,9 @@ class CustomLabeledIconButton extends StatelessWidget {
           elevation: 0,
           foregroundColor: AppColor.black50,
           backgroundColor: AppColor.white,
+          disabledBackgroundColor: AppColor.black20,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: AppColor.primary50),
+            side: BorderSide(color: AppColor.primary50, width: 1.5),
             borderRadius: BorderRadiusGeometry.circular(16),
           ),
         ),

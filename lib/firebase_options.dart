@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '354216430402',
     projectId: 'imaji-stock',
     storageBucket: 'imaji-stock.firebasestorage.app',
+    iosClientId: '354216430402-nr668jjgh5dsff3c8k1at41qkl9b1jl8.apps.googleusercontent.com',
     iosBundleId: 'com.swarinshakya.stockapp',
   );
+
 }

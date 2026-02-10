@@ -7,31 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:354216430402:android:74d903926aa3b9bdf3d6db",
-        "android_client_info": {
-          "package_name": "com.swarinshakya.stock_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCQzIf1BYcocjPOuKiU9UfBRLbVgLQulDA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:354216430402:android:c65347f6d8e84284f3d6db",
         "android_client_info": {
           "package_name": "com.swarinshakya.stockapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "354216430402-ipo242g6durp9n94kif31tsdqodtmvb8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCQzIf1BYcocjPOuKiU9UfBRLbVgLQulDA"
@@ -39,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354216430402-ipo242g6durp9n94kif31tsdqodtmvb8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "354216430402-nr668jjgh5dsff3c8k1at41qkl9b1jl8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.swarinshakya.stockapp"
+              }
+            }
+          ]
         }
       }
     }
